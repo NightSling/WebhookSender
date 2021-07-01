@@ -1,0 +1,29 @@
+{
+  "name": "WebHookBackend",
+  "version": "1.0.0",
+  "description": "hm",
+  "main": "dist/src/main/index.js",
+  "scripts": {
+    "test": "nodemon dist/src/main/index.js",
+    "start": "nodemon dist/src/main/index.js",
+    "build": "npm install --save",
+    "production": "pm2-runtime --watch --no-auto-exit --raw start dist/src/main/index.js",
+    "fullstart": "npm install --save && rm -rf ./dist/ && npm run compile && pm2-runtime --watch --no-auto-exit --raw start dist/main/index.js",
+    "compile": "rm -rf dist/ && tsc -p tsconfig.json"
+  },
+  "author": "daysling#6969",
+  "license": "Copyright",
+  "dependencies": {
+    "@types/express": "^4.17.12",
+    "axios": "^0.21.1",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.2.6",
+    "expressjs": "^1.0.1",
+    "method-override": "^3.0.0",
+    "nodemon": "^2.0.7",
+    "pm2": "^4.5.6",
+    "snekfetch": "^3.6.4",
+    "tslib": "^2.2.0",
+    "typescript": "^4.3.2"
+  }
+}

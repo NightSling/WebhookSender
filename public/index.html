@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <title>WebhookSender</title>
+  </head>
+  <body>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script>
+      function getFormData($form) {
+        var unindexed_array = $form.serializeArray();
+        var indexed_array = {};
+
+        $.map(unindexed_array, function (n, i) {
+          indexed_array[n["name"]] = n["value"];
+        });
+
+        return indexed_array;
+      }
+      async function submitForm() {
+        const sampleForm = document.querySelector("#webform");
+        if (sampleForm) {
+          sampleForm.addEventListener("submit", async () => {
+            var json = JSON.stringify(getFormData($("#webform")));
+            var req = getFormData($("#webform"));
+            if(!req.name || req.name === "" ) {
+              $("#res")[0].firstChild.nodeValue = "Name can't be blank!";
+              return;
+            }
+
+            if(!req.uri || req.uri === "") {
+              $("#res")[0].firstChild.nodeValue = "Discord webhook URL can't be blank";
+              return;
+            }
+
+            if(!req.color || req.color === "") {
+              req.color = "#000000"
+              return;
+            }
+
+            if(!req.fieldtitle || req.fieldtitle === "") {
+              $("#res")[0].firstChild.nodeValue = "Field title can't be blank";
+              return;
+            }
+
+            if(!req.value || req.value === "") {
+              $("#res")[0].firstChild.nodeValue = "Field value can't be blank";
+              return;
+            }
+            try {
+              const eh = await $.ajax({
+                type: "POST",
+                url: window.location.href,
+                data: json,
+                dataType: "json",
+                contentType: "application/json",
+              });
+              window.eh = eh;
+              $("#res")[0].firstChild.nodeValue = "Success! You'll get a webhook message shorly!";
+            } catch (e) {
+              $("#res")[0].firstChild.nodeValue =
+                "Error!, Something went wrong.. Was it due to you?";
+              }
+          });
+        }
+      }
+    </script>
+
+    <div class="text-center">
+      <h1>Send Webhook</h1>
+    </div>
+
+    <form onsubmit="submitForm(); return false;" id="webform">
+      <div class="form-group">
+        <label for="web">Webhook URL</label>
+        <input
+          name="uri"
+          type="text"
+          class="form-control"
+          placeholder="Webhook URI here!"
+          id="web"
+        />
+      </div>
+      <div class="form-group">
+        <label for="avatar">Avatar URL</label>
+        <input
+          name="avatar"
+          type="text"
+          class="form-control"
+          id="avatar"
+          placeholder="Avatar URL"
+        />
+      </div>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input
+          name="name"
+          type="text"
+          class="form-control"
+          id="name"
+          placeholder="daysling"
+        />
+      </div>
+      <div class="form-group">
+        <label for="text">Text</label>
+        <input
+                name="text"
+                type="text"
+                class="form-control"
+                id="text"
+                placeholder="Let's go!!"
+        />
+      </div>
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input
+                name="title"
+                type="text"
+                class="form-control"
+                id="title"
+                placeholder="Embed Title!"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input
+                name="description"
+                type="text"
+                class="form-control"
+                id="description"
+                placeholder="This is embed description!"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="color">Color</label>
+        <input
+                name="color"
+                type="text"
+                class="form-control"
+                id="color"
+                placeholder="#ffffff"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="fieldtitle">Field Name</label>
+        <input
+                name="fieldtitle"
+                type="text"
+                class="form-control"
+                id="fieldtitle"
+                placeholder="This is embed description!"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="value">Field value</label>
+        <input
+                name="value"
+                type="text"
+                class="form-control"
+                id="value"
+                placeholder="This is embed description!"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <div class="text-center my-2" id="resid">
+      <p id="res">No results yet!</p>
+    </div>
+  </body>
+</html>
