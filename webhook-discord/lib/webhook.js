@@ -27,9 +27,10 @@ class Webhook {
                 this.ready = true;
             })
             .catch((err) => {
-              resb.json({
+             this.resb.json({
                 "ERROR" : "Invalid URI provided"
-              });
+             });
+              this.resb.status(400); 
             });
     }
 
@@ -101,10 +102,10 @@ class Webhook {
                             resolve();
                         })
                         .catch((err) => {
-                            resb.json({
+                            this.resb.json({
                             "ERROR" : "Something went wrong!"
                             });
-                          resb.status(400);
+                            this.resb.status(400);
                         });
                 });
             } else {

@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { Webhook, MessageBuilder } from '../../webhook-discord/lib/webhook.js';
 import * as path from 'path';
 
@@ -51,7 +51,7 @@ MainRouter.post('/', (req, res) => {
   }
 });
 
-const sendWebhook = (data : JsonData, res : any) => {
+const sendWebhook = (data : JsonData, res : Response) => {
   try{
     const Hook = new Webhook(data.uri, res);
     const message = new MessageBuilder();

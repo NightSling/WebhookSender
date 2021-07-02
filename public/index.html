@@ -70,7 +70,11 @@
                 contentType: "application/json",
               });
               window.eh = eh;
+              if(eh.ERROR){
+                $("#res")[0].firstChild.nodeValue = eh.ERROR;
+              }else{
               $("#res")[0].firstChild.nodeValue = "Success! You'll get a webhook message shorly!";
+              }
             } catch (e) {
               $("#res")[0].firstChild.nodeValue =
                 "Error!, Something went wrong.. Was it due to you?";
